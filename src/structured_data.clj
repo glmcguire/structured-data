@@ -63,7 +63,7 @@
 
 (defn contains-point?
   "Returns true if rectangle contains point,
-  otherwise returns false"
+  otherwise returns false."
   [rectangle point]
   (let [[[x1 y1] [x2 y2]] rectangle
         [x3 y3] point]
@@ -75,66 +75,115 @@
 (defn contains-rectangle?
   "Returns true if the rectangle inner is
   inside the rectangle outer and otherwise
-  false"
+  false."
   [outer inner]
   (let [[[x1 y1] [x2 y2]] inner]
     (contains-point? outer [x2 y2])))
 
-;; Defining a few books with maps and vectors
-;; Use these in REPL to test the following functions:
-;
-;(def china {:name "China Miéville", :birth-year 1972})
-;(def octavia {:name "Octavia E. Butler"
-;              :birth-year 1947
-;              :death-year 2006})
-;(def friedman {:name "Daniel Friedman" :birth-year 1944})
-;(def felleisen {:name "Matthias Felleisen"})
-;
-;(def cities {:title "The City and the City" :authors [china]})
-;(def wild-seed {:title "Wild Seed", :authors [octavia]})
-;(def embassytown {:title "Embassytown", :authors [china]})
-;(def little-schemer {:title "The Little Schemer"
-;                     :authors [friedman, felleisen]})
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Defining a few books with maps and vectors;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(def china {:name "China Miéville", :birth-year 1972})
+(def octavia {:name       "Octavia E. Butler"
+              :birth-year 1947
+              :death-year 2006})
+(def friedman {:name "Daniel Friedman" :birth-year 1944})
+(def felleisen {:name "Matthias Felleisen"})
 
-(defn title-length [book]
+(def cities {:title "The City and the City" :authors [china]})
+(def wild-seed {:title "Wild Seed", :authors [octavia]})
+(def embassytown {:title "Embassytown", :authors [china]})
+(def little-schemer {:title   "The Little Schemer"
+                     :authors [friedman, felleisen]})
+(def books [cities, wild-seed, embassytown, little-schemer])
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn title-length
+  "Counts the length of the book’s title."
+  [book]
   (count (get book :title)))
 
-(defn author-count [book]
+(defn author-count
+  "Returns the amount of authors that book has."
+  [book]
   (count (get book :authors)))
 
-(defn multiple-authors? [book]
+(defn multiple-authors?
+  "Returns true if book has multiple authors,
+  otherwise false."
+  [book]
   (if (> (author-count book) 1)
     true
     false))
 
-(defn add-author [book new-author]
+(defn add-author
+  "Takes a book and an author as a parameter
+  and adds author to books authors."
+  [book new-author]
   (let [v (get book :authors)
         c (conj v new-author)]
     (assoc book :authors c)))
 
-(defn alive? [author]
+(defn alive?
+  "Takes an author map and returns true
+  if the author is alive, otherwise false."
+  [author]
   (not (contains? author :death-year)))
 
-(defn element-lengths [collection]
+(defn element-lengths
+  "Returns the lengths of every item in collection."
+  [collection]
   (map count collection))
 
-(defn second-elements [collection]
-  :-)
+(defn second-elements
+  "Takes a vector of vectors and returns a sequence
+  of the second elements."
+  [collection]
+  (let [seconds (fn [x] (second x))]
+    (map seconds collection)))
 
-(defn titles [books]
-  :-)
+(defn titles
+  "Takes a collection of books and returns their titles."
+  [books]
+  (map :title books))
 
-(defn monotonic? [a-seq]
-  :-)
+(defn monotonic?
+  "Returns true if a-seq is monotonic and otherwise false.
 
-(defn stars [n]
-  :-)
+  A sequence is monotonic if is either inceasing or decreasing.
+  In a decreasing sequence every element is at most as large as
+  the previous one and in an increasing sequence every member is
+  at least as large as the previous one."
+  [a-seq]
+  (if (or
+        (apply <= a-seq) (apply >= a-seq))
+    true
+    false))
 
-(defn toggle [a-set elem]
-  :-)
+(defn stars
+  "Returns a string with n asterisks *."
+  [n]
+  (apply str
+         (repeat n "*")))
 
-(defn contains-duplicates? [a-seq]
-  :-)
+(defn toggle
+  "Removes elem from a-set if a-set contains elem,
+  and adds it to the set otherwise."
+  [a-set elem]
+  (if (contains? a-set elem)
+    (disj a-set elem)
+    (conj a-set elem)))
+
+(defn contains-duplicates?
+  "Takes a sequence as a parameter and returns true
+  if sequence contains some element multiple times.
+  Otherwise it returns false."
+  [a-seq]
+  (let [x (count a-seq)
+        y (count (set a-seq))]
+    (if (= x y) false true)))
 
 (defn old-book->new-book [book]
   :-)
