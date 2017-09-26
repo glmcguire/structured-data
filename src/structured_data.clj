@@ -83,19 +83,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Defining a few books with maps and vectors;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(def china {:name "China Miéville", :birth-year 1972})
-(def octavia {:name       "Octavia E. Butler"
-              :birth-year 1947
-              :death-year 2006})
-(def friedman {:name "Daniel Friedman" :birth-year 1944})
-(def felleisen {:name "Matthias Felleisen"})
-
-(def cities {:title "The City and the City" :authors [china]})
-(def wild-seed {:title "Wild Seed", :authors [octavia]})
-(def embassytown {:title "Embassytown", :authors [china]})
-(def little-schemer {:title   "The Little Schemer"
-                     :authors [friedman, felleisen]})
-(def books [cities, wild-seed, embassytown, little-schemer])
+;(def china {:name "China Miéville", :birth-year 1972})
+;(def octavia {:name       "Octavia E. Butler"
+;              :birth-year 1947
+;              :death-year 2006})
+;(def friedman {:name "Daniel Friedman" :birth-year 1944})
+;(def felleisen {:name "Matthias Felleisen"})
+;
+;(def cities {:title "The City and the City" :authors [china]})
+;(def wild-seed {:title "Wild Seed", :authors [octavia]})
+;(def embassytown {:title "Embassytown", :authors [china]})
+;(def little-schemer {:title   "The Little Schemer"
+;                     :authors [friedman, felleisen]})
+;(def books [cities, wild-seed, embassytown, little-schemer])
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -185,11 +185,42 @@
         y (count (set a-seq))]
     (if (= x y) false true)))
 
-(defn old-book->new-book [book]
-  :-)
+(defn old-book->new-book
+  "Takes a book with the previous representation (authors
+  in a vector) and returns the same book in the new
+  representation (authors in a set)."
+  [book]
+  (let [x (get book :authors)]
+    (assoc book :authors (set x))))
 
-(defn has-author? [book author]
-  :-)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; New Representation books with maps and Sets;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(def china {:name "China Miéville", :birth-year 1972})
+(def octavia {:name       "Octavia E. Butler"
+              :birth-year 1947
+              :death-year 2006})
+(def friedman {:name "Daniel Friedman" :birth-year 1944})
+(def felleisen {:name "Matthias Felleisen"})
+
+(def cities {:title "The City and the City" :authors #{china}})
+(def wild-seed {:title "Wild Seed", :authors #{octavia}})
+(def embassytown {:title "Embassytown", :authors #{china}})
+(def little-schemer {:title   "The Little Schemer"
+                     :authors #{friedman, felleisen}})
+
+(def books [cities, wild-seed, embassytown, little-schemer])
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn has-author?
+  "Returns true if author is in the authors of book and
+  otherwise false."
+  [book author]
+  (let [x (get book :authors)]
+    (contains? x author)))
 
 (defn authors [books]
   :-)
@@ -225,3 +256,4 @@
   :-)
 
 ; %________%
+
