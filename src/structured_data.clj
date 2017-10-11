@@ -222,11 +222,15 @@
   (let [x (get book :authors)]
     (contains? x author)))
 
-(defn authors [books]
-  :-)
+(defn authors
+  "Returns the authors of every book in books as a set."
+  [books]
+  (let [x (map :authors books)]
+    (apply clojure.set/union x)))
 
+;;TODO -- Not working yet
 (defn all-author-names [books]
-  :-)
+  (get :name (authors books)))
 
 (defn author->string [author]
   :-)
